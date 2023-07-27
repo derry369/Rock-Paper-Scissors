@@ -1,84 +1,106 @@
-const arr = ['ROCK', 'PAPER', 'SCISSORS'];
+//'click' event listener to produce playerSelection
+const buttons = document.querySelectorAll('button');
+buttons.forEach(button => button.addEventListener('click', playRound ) );
 
-function getComputerChoice(array) {
+
+//generate computer selection
+function getComputerChoice() {
+   const arr = ['ROCK', 'PAPER', 'SCISSORS']; 
    const randNum = Math.floor(Math.random() * 3);
-   const choice = array[randNum];
+   const choice = arr[randNum];
    return choice;
-}
- 
+};
 
-function playRound(finSelection, computerSelection) {
-    let result;
-    const comBine = finSelection + ' ' + computerSelection;
+//variables
+let playerSelection;
+let computerSelection;
+let result;
+let human = 0;
+let computer = 0;
+let draw = 0;
+let roundCount = 0;
+ 
+//round winner algorithm to determine round winner
+function playRound(e) {
+    playerSelection = e.srcElement.className;
+    computerSelection = getComputerChoice();
+    
+    const comBine = playerSelection + ' ' + computerSelection;
+
     switch(comBine) {
         case 'ROCK SCISSORS':
         case 'PAPER ROCK':
         case 'SCISSORS PAPER':
-            result = 'YOU WIN!';
+            result = 'YOU WIN THIS ROUND!';
             break;    
         case 'ROCK ROCK':
         case 'PAPER PAPER':
         case 'SCISSORS SCISSORS':
-            result = 'DRAW. Play this  round again';
+            result = 'DRAW. Play this round again';
             break;
         case 'ROCK PAPER':
         case 'PAPER SCISSORS':
         case 'SCISSORS ROCK':
-            result = 'YOU LOSE!';    
+            result = 'YOU LOSE THIS ROUND!';    
             break;
         default:
-            result = `${finSelection} IS INVALID, PICK AGAIN`;
+            result = `${playerSelection} IS INVALID, PICK AGAIN`;
 
-    }
+    };
+    
+    dispRound();
+    countRounds();
+    announceWinn();
 
-    return result;
-}
+    return;
+};
 
+ //display round details
+function dispRound() {
+    const fstSelct = document.querySelector('.fSelection');
+    fstSelct.textContent =`Your Selection : ${playerSelection}`;
 
-function game() {
-    const playerSelection = prompt('Enter your Selection, Human', null);
-    const finSelection = playerSelection.toUpperCase();
-    const computerSelection = getComputerChoice(arr);
-    console.log( playRound (finSelection, computerSelection) );
-    return playRound (finSelection, computerSelection);
-}
+    const scdSelct = document.querySelector('.sSelection');
+    scdSelct.textContent =`Computer's Selection : ${computerSelection}`;
 
+    const trdSelct = document.querySelector('.tSelection');
+    trdSelct.textContent =`Round Result : ${result}`;
+};
 
-let human = 0;
-let computer = 0;
-let invResult;
+//update scoreboard
+function countRounds() {
+    roundCount++;
+    const rnd = document.querySelector('.round');
+    rnd.textContent = `ROUND : ${roundCount}`;
 
-
-function outcome() {
-let round = game();
-if(round === 'YOU WIN!') {
-    human++;
-} else if (round === 'YOU LOSE!') {
-    computer++;
-} else {
-    invResult = outcome();
-}
-}
-
-
-
-outcome();
-outcome();
-outcome();
-outcome();
-outcome();
-
-console.log(`You won ${human} rounds.`);
-console.log(`Computer won ${computer} rounds.`);
-
-function smarterBeing() {
-    if (human > computer) {
-        alert('You win. You are smarter than your computer');
-    } else if (computer > human) {
-        alert('Your Computer wins. Your computer seems to outsmart you, Human');
+    if(result === 'YOU WIN THIS ROUND!') {
+        human++;
+        const you = document.querySelector('.human');
+        you.textContent = `HUMAN : ${human}`
+        
+    } else if(result === 'YOU LOSE THIS ROUND!') {
+        computer++; 
+        const ai = document.querySelector('.computer');
+        ai.textContent = `COMPUTER : ${computer}`;
     } else {
-        alert('DRAW');
+        draw++;
+        const equal = document.querySelector('.draw');
+        equal.textContent = `DRAWS : ${draw}`
     }
-}
+};
 
-smarterBeing();
+//announce winner
+function announceWinn() {
+    if(human === 5) {
+        const ance = document.querySelector('h1');
+        ance.textContent = 'YOU WIN!, YOU ARE SMARTER';
+        alert('You Won,  Refresh to play Again');
+    } else if (computer === 5) {
+        const ance = document.querySelector('h1');
+        ance.textContent = 'COMPUTER WINS!, YOUR COMPUTER OUTSMARTS YOU';
+        alert('You Lost, Refresh to play Again');
+    } else {
+        return;
+    }
+};
+    

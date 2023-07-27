@@ -1,0 +1,46 @@
+h1 {
+    text-align: center;
+}
+
+#overAll {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+#resultsBoard {
+    margin-top: 70px;
+}
+
+button {
+    display: block;
+    margin-top: 50px;
+    text-decoration: solid;
+}
+
+.human,
+.round,
+.computer,
+.draw,
+.scoreBoard {
+   margin-top: 50px;
+   font-size: large;
+   font-weight: bolder;
+}
+
+.sSelection,
+.tSelection {
+    margin-top: 70px;
+    font-size: large;
+    font-weight: bolder;
+}
+
+.fSelection {
+    font-size: large;
+    font-weight: bolder;    
+}
+
+.Buttons {
+    font-size: large;
+    font-weight: bolder;
+}
